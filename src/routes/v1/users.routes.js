@@ -11,6 +11,10 @@ let users = [
     }
 ]
 
+router.get('/', (req, res) => {
+    res.status(200).json(users);
+})
+
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     const user = users.find(u => u.id === id);
@@ -21,5 +25,24 @@ router.get('/:id', (req, res) => {
     
     res.status(200).json(users);
 });
+
+router.post('/', (req, res) => {
+    const {name, gender, age, password } = req.body;
+    if (!name || !password || !gender || !age) {
+        return res.status(400).json ({ error: 'nombre y contraseña requerida'})
+    }
+
+    const newUser = {
+        id: `${Date.now()}`,
+        name,
+        gender,
+        age,
+        password,
+        createdAt: new Date().toISOString()
+    }
+    users.push(newUser);
+
+    res.status(201).json(newUser);
+})
 
 module.exports = router;
