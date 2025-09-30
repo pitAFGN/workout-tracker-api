@@ -45,4 +45,24 @@ router.post('/', (req, res) => {
     res.status(201).json(newUser);
 })
 
+router.put ('/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, gender, age, password } = req.body;
+
+    const index = users.findIndex ( u => u.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: "todos los datos son requeridos"})
+    }
+
+    users[index] = {
+    ...users[index],
+    name,
+    gender,
+    age,
+    password
+    };
+
+    res.status(200).json(users[index])
+});
+
 module.exports = router;
