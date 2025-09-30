@@ -78,21 +78,31 @@ router.delete('/:id', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    const { age, gender, search } = req.query;
+   
+    const { age: ageQuery, gender, search } = req.query; 
+    
+    const ageNumber = ageQuery ? parseInt(ageQuery, 10) : NaN;
+    
     let result = users;
 
-    if (age) {
-        result = result.filter(u => u.age === age);
+    if (!isNaN(ageNumber)) { 
+
+        result = result.filter(u => u.age === ageNumber); 
     }
+
     if (gender) {
+
         result = result.filter(u => u.gender === gender);
     }
+    
     if (search) {
         result = result.filter(u =>
             u.name.toLowerCase().includes(search.toLowerCase())
         );
     }
+    
     res.status(200).json(result);
-})
+});
+
 
 module.exports = router;
