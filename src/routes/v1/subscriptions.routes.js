@@ -25,4 +25,21 @@ router.get('/:id', (req, res) => {
     res.status(200).json(subscriptions);
 });
 
+router.post('/', (req, res) => {
+    const { user_id, typeInscription, statusInscription } = req.body;
+    if (!user_id || !typeInscription || !statusInscription) {
+        return res.status(404).json({ error: 'faltan datos por llenar mijo pongase pues las pilas' })
+    }
+
+    const newSubscription = {
+        id: `${Date.now()}`,
+        user_id,
+        typeInscription,
+        statusInscription,
+        createdAt: new Date().toISOString()
+    }
+    subscriptions.push(newSubscription)
+    res.status(201).json(newSubscription)
+})
+
 module.exports = router;
