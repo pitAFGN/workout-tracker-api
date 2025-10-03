@@ -43,5 +43,43 @@ router.post('/', (req, res) => {
     res.status(201).json(newTrainingExercise)
 })
 
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { trainingPlans_id, reps, sets, weigh } = req.body;
+
+    const index = trainingExercises.findIndex(te => te.id === id);
+    if (index === -1) {
+        return res.status(400).json({ error: 'se requieren todos los datos 🤣🤣' })
+    }
+
+    trainingExercises[index] = {
+        ...trainingExercises[index],
+        trainingPlans_id,
+        reps,
+        sets,
+        weigh
+    };
+
+    res.status(200).json(trainingExercises[index]);
+})
+
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+    const index = trainingExercises.findIndex(te => te.id === id);
+
+    if (index === -1) {
+
+        return res.status(404).json({ error: `El ejercicio con ID ${id} no fue encontrado.` });
+    }
+
+    trainingExercises[index] = {
+        ...trainingExercises[index],
+        ...updates
+    };
+
+    res.status(200).json(trainingExercises[index]);
+});
+
 
 module.exports = router;
