@@ -1,129 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
-let trainingPlans = [
-    {
-        id: "1",
-        user_id: "1",
-        name: "rutina para ganar masa",
-        description: "ricos ejercicios para ganar puro musculo",
-        exercises_id: [
-            "2",
-            "3",
-            "1"
-        ]
-    }
-]
+const trainingPlansController = require(
+    path.resolve(__dirname, '../../../src/controllers/trainingPlansController')
+);
 
-router.get('/', (req, res) => {
-    res.status(200).json(trainingPlans)
-})
+router.get('/', trainingPlansController.getAllTrainingPlans);
 
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
-    const trainingPlan = trainingPlans.find(t => t.id === id);
+router.get('/:id', trainingPlansController.getOneTrainingPlan);
 
-    if (!trainingPlan) {
-        return res.status(404).json({ error: 'ejercicio no encontrado' })
-    }
-    res.status(200).json(trainingPlans);
-});
+router.post('/', trainingPlansController.createNewTrainingPlan);
 
-router.post('/', (req, res) => {
-    const { user_id, name, description, exercises_id } = req.body;
-    if (!user_id || !name || !description || !exercises_id) {
-        return res.status(404).json({ error: 'faltan datos weba' })
-    }
+router.put('/:id', trainingPlansController.updateOneTrainingPlan);
 
-    const newTrainingPlans = {
-        id: `${Date.now()}`,
-        user_id,
-        name,
-        description,
-        exercises_id,
-        createdAt: new Date().toISOString()
-    }
-    trainingPlans.push(newTrainingPlans)
-    res.status(201).json(newTrainingPlans)
-})
+router.patch('/:id', trainingPlansController.patchOneTrainingPlan);
 
-router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const { user_id, name, description, exercises_id } = req.body;
-
-    const index = trainingPlans.findIndex(t => t.id === id);
-    if (index === -1) {
-        return res.status(400).json({ error: 'se requieren todos los datos 🤣🤣' })
-    }
-
-    trainingPlans[index] = {
-        ...trainingPlans[index],
-        user_id,
-        name,
-        description,
-        exercises_id
-    };
-
-    res.status(200).json(trainingPlans[index]);
-})
-
-router.patch('/:id', (req, res) => {
-    const { id } = req.params;
-    const updates = req.body;
-    const index = trainingPlans.findIndex(t => t.id === id);
-
-    if (index === -1) {
-
-        return res.status(404).json({ error: `El ejercicio con ID ${id} no fue encontrado.` });
-    }
-
-    trainingPlans[index] = {
-        ...trainingPlans[index],
-        ...updates
-    };
-
-    res.status(200).json(trainingPlans[index]);
-});
-
-router.delete('/:id', (req, res) => {
-    const { id } = req.params;
-    const index = trainingPlans.findIndex(e => e.id === id);
-
-    if (index === -1) {
-        return res.status(404).json({ error: 'ejercicio no encontrado ome, espabile' });
-    }
-
-    const deletedPlans = trainingPlans.splice(index, 1);
-    res.status(200).json({ deleted: deletedPlans[0].id });    
-})
-
-router.get('/', (req, res) => {
-    const {name, description, search } = req.query; 
-
-    let result = trainingPlans;
-
-    if (name) {
-        const trainingLower = name.toLowerCase();
-        result = result.filter(t => 
-            t.name && t.typeInscription.toLowerCase() === trainingLower
-        );
-    }
-
-    if (description) {
-        const descriptionLower = description.toLowerCase();
-        result = result.filter(t => 
-            t.description && t.description.toLowerCase() === descriptionLower
-        );
-    }
-    
-    if (search) {
-        const searchLower = search.toLowerCase();
-        result = result.filter(t =>
-            t.name.toLowerCase().includes(searchLower)
-        );
-    }
-    
-    res.status(200).json(result);
-});
+router.delete('/:id', trainingPlansController.deleteOneTrainingPlan);
 
 module.exports = router;
