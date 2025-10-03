@@ -91,4 +91,33 @@ router.delete('/:id', (req, res) => {
     res.status(200).json({ deleted: deletedreport[0].id });    
 })
 
+router.get('/', (req, res) => {
+    const { user_id, progress, search } = req.query; 
+
+    let result = subscriptions;
+
+    if (user_id) {
+        const user_idLower = user_id.toLowerCase();
+        result = result.filter(r => 
+            r.user_id && r.user_id.toLowerCase() === user_idLower
+        );
+    }
+
+    if (progress) {
+        const progressLower = progress.toLowerCase();
+        result = result.filter(r => 
+            r.progress && r.progress.toLowerCase() === progressLower
+        );
+    }
+    
+    if (search) {
+        const searchLower = search.toLowerCase();
+        result = result.filter(r =>
+            r.user_id.toLowerCase().includes(searchLower)
+        );
+    }
+    
+    res.status(200).json(result);
+});
+
 module.exports = router;
