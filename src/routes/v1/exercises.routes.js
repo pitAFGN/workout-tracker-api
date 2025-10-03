@@ -25,4 +25,22 @@ router.get('/:id', (req, res) => {
 res.status(200).json(exercises);
 });
 
+router.post('/', (req, res) => {
+    const {name, description, category, muscleGroup} = req.body;
+    if (!name || !description || !category || !muscleGroup) {
+        return res.status(404).json({error: 'faltan datos por llenar mijo pongase pues las pilas'})
+    }
+
+    const newExercise = {
+            id: `${Date.now()}`,
+            name,
+            description,
+            category,
+            muscleGroup,
+            createdAt: new Date().toISOString()
+        }
+        exercises.push(newExercise)
+        res.status(201).json(newExercise)
+})
+
 module.exports = router;
