@@ -42,4 +42,41 @@ router.post('/', (req, res) => {
     res.status(201).json(newSubscription)
 })
 
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { user_id, typeInscription, statusInscription } = req.body;
+
+    const index = subscriptions.findIndex(s => s.id === id);
+    if (index === -1) {
+        return res.status(400).json({ error: 'se requieren todos los datos pongase pues las pilas 🥸' })
+    }
+
+    subscriptions[index] = {
+        ...subscriptions[index],
+        user_id,
+        typeInscription,
+        statusInscription
+    };
+
+    res.status(200).json(subscriptions[index]);
+})
+
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+    const index = subscriptions.findIndex(s => s.id === id);
+
+    if (index === -1) {
+
+        return res.status(404).json({ error: `El ejercicio con ID ${id} no fue encontrado.` });
+    }
+
+    subscriptions[index] = {
+        ...subscriptions[index],
+        ...updates
+    };
+
+    res.status(200).json(subscriptions[index]);
+});
+
 module.exports = router;
