@@ -91,5 +91,33 @@ router.delete('/:id', (req, res) => {
     res.status(200).json({ deleted: deletedExercise[0].id });    
 })
 
+router.get('/', (req, res) => {
+    const { muscleGroup, category, search } = req.query; 
+
+    let result = exercises;
+
+    if (muscleGroup) {
+        const groupLower = muscleGroup.toLowerCase();
+        result = result.filter(e => 
+            e.muscleGroup && e.muscleGroup.toLowerCase() === groupLower
+        );
+    }
+
+    if (category) {
+        const categoryLower = category.toLowerCase();
+        result = result.filter(e => 
+            e.category && e.category.toLowerCase() === categoryLower
+        );
+    }
+    
+    if (search) {
+        const searchLower = search.toLowerCase();
+        result = result.filter(e =>
+            e.name.toLowerCase().includes(searchLower)
+        );
+    }
+    
+    res.status(200).json(result);
+});
 
 module.exports = router;
