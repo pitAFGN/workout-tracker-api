@@ -97,4 +97,33 @@ router.delete('/:id', (req, res) => {
     res.status(200).json({ deleted: deletedPlans[0].id });    
 })
 
+router.get('/', (req, res) => {
+    const {name, description, search } = req.query; 
+
+    let result = trainingPlans;
+
+    if (name) {
+        const trainingLower = name.toLowerCase();
+        result = result.filter(t => 
+            t.name && t.typeInscription.toLowerCase() === trainingLower
+        );
+    }
+
+    if (description) {
+        const descriptionLower = description.toLowerCase();
+        result = result.filter(t => 
+            t.description && t.description.toLowerCase() === descriptionLower
+        );
+    }
+    
+    if (search) {
+        const searchLower = search.toLowerCase();
+        result = result.filter(t =>
+            t.name.toLowerCase().includes(searchLower)
+        );
+    }
+    
+    res.status(200).json(result);
+});
+
 module.exports = router;
