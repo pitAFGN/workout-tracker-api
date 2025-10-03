@@ -25,4 +25,23 @@ router.get('/:id', (req, res) => {
     res.status(200).json(trainingExercises);
 });
 
+router.post('/', (req, res) => {
+    const { trainingPlans_id, reps, sets, weigh } = req.body;
+    if (!trainingPlans_id || !reps || !sets || !weigh) {
+        return res.status(404).json({ error: 'faltan datos weba' })
+    }
+
+    const newTrainingExercise = {
+        id: `${Date.now()}`,
+        trainingPlans_id,
+        reps,
+        sets,
+        weigh,
+        createdAt: new Date().toISOString()
+    }
+    trainingExercises.push(newTrainingExercise)
+    res.status(201).json(newTrainingExercise)
+})
+
+
 module.exports = router;
