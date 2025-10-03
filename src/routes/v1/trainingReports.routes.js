@@ -79,4 +79,16 @@ router.patch('/:id', (req, res) => {
     res.status(200).json(trainingReports[index]);
 });
 
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const index = trainingReports.findIndex(r => r.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'ejercicio no encontrado ome, espabile' });
+    }
+
+    const deletedreport = trainingReports.splice(index, 1);
+    res.status(200).json({ deleted: deletedreport[0].id });    
+})
+
 module.exports = router;
