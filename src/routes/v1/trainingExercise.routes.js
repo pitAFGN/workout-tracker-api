@@ -93,5 +93,33 @@ router.delete('/:id', (req, res) => {
     res.status(200).json({ deleted: deletedtraining[0].id });    
 })
 
+router.get('/', (req, res) => {
+    const { trainingPlans_id, reps, search } = req.query; 
+
+    let result = subscriptions;
+
+    if (trainingPlans_id) {
+        const trainingLower = trainingPlans_id.toLowerCase();
+        result = result.filter(te => 
+            te.trainingPlans_id && te.trainingPlans_id.toLowerCase() === trainingLower
+        );
+    }
+
+    if (reps) {
+        const repsLower = reps.toLowerCase();
+        result = result.filter(te => 
+            te.reps && te.reps.toLowerCase() === repsLower
+        );
+    }
+    
+    if (search) {
+        const searchLower = search.toLowerCase();
+        result = result.filter(te =>
+            te.trainingPlans_id.toLowerCase().includes(searchLower)
+        );
+    }
+    
+    res.status(200).json(result);
+});
 
 module.exports = router;
