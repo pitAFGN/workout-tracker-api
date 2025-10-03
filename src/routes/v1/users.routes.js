@@ -54,6 +54,7 @@ router.put('/:id', (req, res) => {
         return res.status(404).json({ error: "todos los datos son requeridos" })
     }
 
+
     users[index] = {
         ...users[index],
         name,
@@ -63,6 +64,24 @@ router.put('/:id', (req, res) => {
     };
 
     res.status(200).json(users[index])
+});
+
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+    const index = users.findIndex(u => u.id === id);
+
+    if (index === -1) {
+
+        return res.status(404).json({ error: `El ejercicio con ID ${id} no fue encontrado.` });
+    }
+
+    users[index] = {
+        ...users[index],
+        ...updates
+    };
+
+    res.status(200).json(users[index]);
 });
 
 router.delete('/:id', (req, res) => {
@@ -78,29 +97,29 @@ router.delete('/:id', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-   
-    const { age: ageQuery, gender, search } = req.query; 
-    
+
+    const { age: ageQuery, gender, search } = req.query;
+
     const ageNumber = ageQuery ? parseInt(ageQuery, 10) : NaN;
-    
+
     let result = users;
 
-    if (!isNaN(ageNumber)) { 
+    if (!isNaN(ageNumber)) {
 
-        result = result.filter(u => u.age === ageNumber); 
+        result = result.filter(u => u.age === ageNumber);
     }
 
     if (gender) {
 
         result = result.filter(u => u.gender === gender);
     }
-    
+
     if (search) {
         result = result.filter(u =>
             u.name.toLowerCase().includes(search.toLowerCase())
         );
     }
-    
+
     res.status(200).json(result);
 });
 

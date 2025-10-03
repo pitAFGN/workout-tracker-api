@@ -9,6 +9,8 @@ Users
 
 -> PUT	/v1/users/:id	Actualiza todos los datos de un usuario.	Muestra la solicitud (-d con JSON completo) y la respuesta 200 OK.
 
+-> PATCH  /v1/users/:id	Actualiza un dato en especifico de un usuario sin afectar las demas.	Muestra la solicitud (-d con JSON completo) y la respuesta 200 OK.
+
 -> DELETE	/v1/users/:id	Elimina un usuario por ID.	Muestra la respuesta 200 OK con el ID eliminado y el error 404 Not Found.
 
 #Códigos de Estado
