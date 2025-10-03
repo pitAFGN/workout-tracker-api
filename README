@@ -20,3 +20,26 @@ Users
 -> 400 Bad Request	Datos faltantes o incorrectos.
 
 -> 404 Not Found	Recurso no existe.
+
+Exercises
+#Método	Endpoint
+
+-> GET	/v1/Exercises	Obtiene todos los usuarios.	Incluye el curl sin filtros y otro con filtros
+
+-> GET	/v1/Exercises/:id	Obtiene un usuario por ID.	Muestra la respuesta 200 OK y el error 404 Not Found
+
+-> POST	/v1/Exercises	Crea un nuevo usuario.	Muestra la solicitud (-d con JSON) y la respuesta 201 Created.
+
+-> PUT	/v1/Exercises/:id	Actualiza todos los datos de un usuario. Muestra la solicitud (-d con JSON completo) y la respuesta 200 OK.
+
+-> DELETE	/v1/Exercises/:id	Elimina un usuario por ID.	Muestra la respuesta 200 OK con el ID eliminado y el error 404 Not Found.
+
+#Códigos de Estado
+
+-> 200 OK	Éxito.
+
+-> 201 Created	Recurso Creado.
+
+-> 400 Bad Request	Datos faltantes o incorrectos.
+
+-> 404 Not Found	Recurso no existe.
