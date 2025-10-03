@@ -91,5 +91,34 @@ router.delete('/:id', (req, res) => {
     res.status(200).json({ deleted: deletedsubscriptions[0].id });    
 })
 
+router.get('/', (req, res) => {
+    const { typeInscription, statusInscription, search } = req.query; 
+
+    let result = subscriptions;
+
+    if (typeInscription) {
+        const typeLower = typeInscription.toLowerCase();
+        result = result.filter(s => 
+            s.typeInscription && s.typeInscription.toLowerCase() === typeLower
+        );
+    }
+
+    if (statusInscription) {
+        const statusLower = statusInscription.toLowerCase();
+        result = result.filter(s => 
+            s.statusInscription && s.statusInscription.toLowerCase() === statusLower
+        );
+    }
+    
+    if (search) {
+        const searchLower = search.toLowerCase();
+        result = result.filter(s =>
+            s.user_id.toLowerCase().includes(searchLower)
+        );
+    }
+    
+    res.status(200).json(result);
+});
+
 
 module.exports = router;
