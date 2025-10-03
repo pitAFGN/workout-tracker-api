@@ -45,3 +45,27 @@ Exercises
 -> 400 Bad Request	Datos faltantes o incorrectos.
 
 -> 404 Not Found	Recurso no existe.
+
+subscriptions
+#Método	Endpoint
+
+-> GET	/v1/subscriptions	Obtiene todos las suscripciones.	Incluye el curl sin filtros y otro con filtros
+
+-> GET	/v1/subscriptions/:id	Obtiene una suscripcion por ID.	Muestra la respuesta 200 OK y el error 404 Not Found
+
+-> POST	/v1/subscriptions	Crea una nueva suscripcion.	Muestra la solicitud (-d con JSON) y la respuesta 201 Created.
+
+-> PUT	/v1/subscriptions/:id	Actualiza todos los datos de una suscripcion. Muestra la solicitud (-d con JSON completo) y la respuesta 200 OK.
+
+-> DELETE	/v1/subscriptions/:id	Elimina una suscripcion por ID.	Muestra la respuesta 200 OK con el ID eliminado y el error 404 Not Found.
+
+#Códigos de Estado
+
+-> 200 OK	Éxito.
+
+-> 201 Created	Recurso Creado.
+
+-> 400 Bad Request	Datos faltantes o incorrectos.
+
+-> 404 Not Found	Recurso no existe.
+
