@@ -15,3 +15,18 @@ let trainingPlans = [
     }
 ]
 
+router.get('/', (req, res) => {
+    res.status(200).json(trainingPlans)
+})
+
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const trainingPlan = trainingPlans.find(t => t.id === id);
+
+    if (!trainingPlan) {
+        return res.status(404).json({ error: 'ejercicio no encontrado' })
+    }
+    res.status(200).json(trainingPlans);
+});
+
+module.exports = router;
