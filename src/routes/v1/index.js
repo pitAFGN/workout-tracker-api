@@ -15,6 +15,6 @@ router.use('/subscriptions', subscriptionsRoutes);
 
 router.use('/trainingPlans', trainingPlansRoutes);
 
-router.use('./trainingExercise', trainingExerciseRoutes );
+router.use('/trainingExercises', trainingExerciseRoutes );
 
 module.exports = router;
